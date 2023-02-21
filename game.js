@@ -1,3 +1,6 @@
+// https://www.youtube.com/watch?v=-tlb4tv4mC4&ab_channel=developedbyed
+
+
 const section = document.querySelector("section");
 const playerLivesCount = document.querySelector("span");
 const playerLives = 6;
@@ -37,6 +40,31 @@ const randomise = () => {
 //card generator function
 const cardGenerator = () => {
     const cardData = randomise();
-    console.log(cardData);
+
+
+    cardData.forEach((item) => {
+        //generate html
+        const card = document.createElement("div");
+        const face = document.createElement("img");
+        const back = document.createElement("div");
+        card.classList = 'card';
+        face.classList = 'face';
+        back.classList = 'back';
+
+        face.src = item.imgSrc;
+
+        section.appendChild(card);
+        card.appendChild(face);
+        card.appendChild(back);
+
+        card.addEventListener('click', (e) => {
+            card.classList.toggle('toggleCard');
+        })
+        })
+    
+
+    
 }
 cardGenerator();
+
+// https://www.youtube.com/watch?v=-tlb4tv4mC4&ab_channel=developedbyed
