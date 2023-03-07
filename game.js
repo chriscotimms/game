@@ -41,7 +41,7 @@ const randomise = () => {
 const cardGenerator = () => {
     const cardData = randomise();
 
-    cardData.forEach((item) => {
+    cardData.forEach((item, index) => {
         //generate html
         const card = document.createElement("div");
         const face = document.createElement("img");
@@ -52,6 +52,7 @@ const cardGenerator = () => {
 
         face.src = item.imgSrc;
         card.setAttribute('name', item.name);
+        card.setAttribute('Tile', index);
 
         section.appendChild(card);
         card.appendChild(face);
