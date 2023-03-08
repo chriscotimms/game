@@ -50,7 +50,7 @@ const cardGenerator = () => {
         face.classList = 'face';
         back.classList = 'back';
         back.insertAdjacentText("beforeend", index);
-        card.ariaLabel = "Tile" + index;
+        card.ariaLabel = "Tile " + index;
         face.src = item.imgSrc;
         card.setAttribute('name', item.name);
         card.setAttribute('Tile', index);
