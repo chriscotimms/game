@@ -10,6 +10,7 @@ body {
     align-items: center;
     flex-direction: column;
     background-color: blueviolet;
+    font-family: 'Baloo 2', cursive;
 
 }
 
@@ -39,8 +40,13 @@ section {
 .back {
     background-color: white;
     backface-visibility: hidden;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
 }
 
 .toggleCard {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); 
 }
+

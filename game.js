@@ -50,8 +50,7 @@ const cardGenerator = () => {
         face.classList = 'face';
         back.classList = 'back';
         back.insertAdjacentText("beforeend", index);
-       
-
+        card.ariaLabel = index;
         face.src = item.imgSrc;
         card.setAttribute('name', item.name);
         card.setAttribute('Tile', index);
@@ -72,6 +71,9 @@ const cardGenerator = () => {
 const checkCards = (e) => {
     const clickedCard = e.target;
     clickedCard.classList.add("flipped");
+    const namer = clickedCard.getAttribute("name");
+    clickedCard.ariaLabel = "Tile " + clickedCard.getAttribute("tile") + " " + namer;
+    console.log(namer);
     const flippedCards = document.querySelectorAll(".flipped");
     const toggleCard = document.querySelectorAll(".toggleCard");
     console.log(flippedCards);
@@ -81,16 +83,20 @@ const checkCards = (e) => {
             console.log("match");
             flippedCards.forEach((card) => {
                 card.classList.remove("flipped");
-                card.style.pointerEvents= "none";
+                card.style.pointerEvents = "none";
+                card.ariaLabel = "matched";
             });
         } else {
             console.log("wrong");
             flippedCards.forEach(card => {
                 card.classList.remove('flipped');
                 setTimeout(() => {
-                    card.classList.remove('toggleCard');   
-                }, 1500);
+                    card.classList.remove('toggleCard');
+                    card.removeAttribute("aria-label");   
+                }, 2000);
+                
             });
+            
             playerLives--;
             if (playerLives === 0) {
                 restart(":( try again :(");
