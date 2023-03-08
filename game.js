@@ -49,10 +49,13 @@ const cardGenerator = () => {
         card.classList = 'card';
         face.classList = 'face';
         back.classList = 'back';
+        back.insertAdjacentText("beforeend", index);
+       
 
         face.src = item.imgSrc;
         card.setAttribute('name', item.name);
         card.setAttribute('Tile', index);
+        
 
         section.appendChild(card);
         card.appendChild(face);
