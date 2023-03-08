@@ -84,7 +84,7 @@ const checkCards = (e) => {
             flippedCards.forEach((card) => {
                 card.classList.remove("flipped");
                 card.style.pointerEvents = "none";
-                card.ariaLabel = "matched";
+                card.ariaLabel = "Tile " + card.getAttribute("tile") + " matched";
             });
         } else {
             console.log("wrong");
@@ -92,7 +92,7 @@ const checkCards = (e) => {
                 card.classList.remove('flipped');
                 setTimeout(() => {
                     card.classList.remove('toggleCard');
-                    card.removeAttribute("aria-label");   
+                    card.ariaLabel = "Tile " + card.getAttribute("tile");   
                 }, 2000);
                 
             });
