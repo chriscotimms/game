@@ -32,7 +32,7 @@ section {
 .card:focus {
     outline: 3px solid rgb(0, 0, 0);
     margin: 10px;
-    box-shadow: rgba(242, 255, 96, 0.9) 0 0 7px 15px;
+    box-shadow: rgba(242, 255, 96, 0.9) 0 0 15px 10px;
 }
 
 .face, .back {

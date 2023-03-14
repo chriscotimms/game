@@ -4,9 +4,11 @@
 const section = document.querySelector("section");
 const playerLivesCount = document.querySelector("span");
 let playerLives = 6;
-
 playerLivesCount.textContent = playerLives;
 
+let CurrentFocus = document.activeElement;
+
+let cardArray = [];
 
 
 const getData = () => [
@@ -46,6 +48,7 @@ const cardGenerator = () => {
         const card = document.createElement("div");
         const face = document.createElement("img");
         const back = document.createElement("div");
+        card.id = index;
         card.classList = 'card';
         face.classList = 'face';
         back.classList = 'back';
@@ -61,6 +64,8 @@ const cardGenerator = () => {
         card.appendChild(face);
         card.appendChild(back);
 
+        cardArray.push('Tile ' + index);
+
         //Adding event listener to cards for mouseclick
         card.addEventListener('click', (e) => {
             card.classList.toggle('toggleCard');
@@ -69,28 +74,30 @@ const cardGenerator = () => {
 
 
         //additionally adding keyboard input enter on focus for cards
-        window.addEventListener("keydown", (event) => {
-            if (event.defaultPrevented) {
+        window.addEventListener('keydown', (e) => {
+            if (e.defaultPrevented) {
                 return; // Do nothing if the event was already processed
             }
-            switch (event.key) {
+            switch (e.key) {
             
                 case "Enter":
-                console.log(document.activeElement); //Log current focus
                 document.activeElement.classList.toggle('toggleCard');
-                checkCards(event);
+                checkCards(e);
+                //console.log(CurrentFocus);
                 break;
+
             default:
               return; // Quit when this doesn't handle the key event.
           }
           // Cancel the default action to avoid it being handled twice
-          event.preventDefault();
+          e.preventDefault();
         },
         true
       );
 
 
     });
+    console.log(cardArray);
 };
 
 //check cards 
@@ -171,9 +178,16 @@ cardGenerator();
 
 
 //adding keyboard navigation
-window.addEventListener(
-    "keydown",
-    (event) => {
+window.addEventListener("keydown", (event) => {
+
+    CurrentFocus = document.activeElement.id;
+    console.log(CurrentFocus);
+    //console.log(event.key);
+    const focusableElements = document.querySelectorAll('div.card');
+    const focusable = [...focusableElements]; 
+    //console.log(focusable[0]);
+
+
       if (event.defaultPrevented) {
         return; // Do nothing if the event was already processed
       }
@@ -182,7 +196,7 @@ window.addEventListener(
 
         case "Down": // IE/Edge specific value
         case "ArrowDown":
-            console.log(event.key);
+
           // Do something for "down arrow" key press.
           break;
         case "Up": // IE/Edge specific value
@@ -210,6 +224,7 @@ window.addEventListener(
   
       // Cancel the default action to avoid it being handled twice
       event.preventDefault();
+      console.log(CurrentFocus);
     },
     true
   );
