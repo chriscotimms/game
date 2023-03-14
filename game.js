@@ -61,10 +61,35 @@ const cardGenerator = () => {
         card.appendChild(face);
         card.appendChild(back);
 
+        //Adding event listener to cards for mouseclick
         card.addEventListener('click', (e) => {
             card.classList.toggle('toggleCard');
             checkCards(e);
         });
+
+
+        //additionally adding keyboard input enter on focus for cards
+        window.addEventListener("keydown", (event) => {
+            if (event.defaultPrevented) {
+                return; // Do nothing if the event was already processed
+            }
+            switch (event.key) {
+            
+                case "Enter":
+                console.log(document.activeElement); //Log current focus
+                document.activeElement.classList.toggle('toggleCard');
+                checkCards(event);
+                break;
+            default:
+              return; // Quit when this doesn't handle the key event.
+          }
+          // Cancel the default action to avoid it being handled twice
+          event.preventDefault();
+        },
+        true
+      );
+
+
     });
 };
 
@@ -138,6 +163,13 @@ cardGenerator();
 
 // https://www.youtube.com/watch?v=-tlb4tv4mC4&ab_channel=developedbyed
 
+
+
+
+
+
+
+
 //adding keyboard navigation
 window.addEventListener(
     "keydown",
@@ -147,9 +179,7 @@ window.addEventListener(
       }
   
       switch (event.key) {
-        
-        case "Enter":
-            console.log(document.activeElement); //Log current focus
+
         case "Down": // IE/Edge specific value
         case "ArrowDown":
             console.log(event.key);
