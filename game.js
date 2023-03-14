@@ -6,9 +6,7 @@ const playerLivesCount = document.querySelector("span");
 let playerLives = 6;
 playerLivesCount.textContent = playerLives;
 
-let CurrentFocus = document.activeElement;
-
-let cardArray = [];
+const cardArray = [];
 
 
 const getData = () => [
@@ -48,7 +46,8 @@ const cardGenerator = () => {
         const card = document.createElement("div");
         const face = document.createElement("img");
         const back = document.createElement("div");
-        card.id = index;
+        card.id = "tile" + index;
+        cardArray.push(card.id);
         card.classList = 'card';
         face.classList = 'face';
         back.classList = 'back';
@@ -63,8 +62,6 @@ const cardGenerator = () => {
         section.appendChild(card);
         card.appendChild(face);
         card.appendChild(back);
-
-        cardArray.push('Tile ' + index);
 
         //Adding event listener to cards for mouseclick
         card.addEventListener('click', (e) => {
@@ -97,8 +94,16 @@ const cardGenerator = () => {
 
 
     });
-    console.log(cardArray);
+
 };
+
+
+//let currentFocus = document.getElementById("tile 2");
+//console.log(currentFocus + "returned");
+
+
+
+
 
 //check cards 
 const checkCards = (e) => {
@@ -168,25 +173,16 @@ const restart = (text) => {
 
 cardGenerator();
 
-// https://www.youtube.com/watch?v=-tlb4tv4mC4&ab_channel=developedbyed
 
-
-
-
-
+let i = 0;
+let currentFocus = document.getElementById(cardArray[i]);
+currentFocus.focus();
+console.log(currentFocus, i);
 
 
 
 //adding keyboard navigation
-window.addEventListener("keydown", (event) => {
-
-    CurrentFocus = document.activeElement.id;
-    console.log(CurrentFocus);
-    //console.log(event.key);
-    const focusableElements = document.querySelectorAll('div.card');
-    const focusable = [...focusableElements]; 
-    //console.log(focusable[0]);
-
+window.addEventListener("keydown", (event) => { 
 
       if (event.defaultPrevented) {
         return; // Do nothing if the event was already processed
@@ -196,35 +192,42 @@ window.addEventListener("keydown", (event) => {
 
         case "Down": // IE/Edge specific value
         case "ArrowDown":
-
+            console.log(event.key);
+            if (i < 16) {
+                i == i+4;
+            } else {
+                i -= 12;
+            }
+            console.log(i);
+            
+                       
           // Do something for "down arrow" key press.
           break;
         case "Up": // IE/Edge specific value
         case "ArrowUp":
+            console.log(event.key);
           // Do something for "up arrow" key press.
           break;
         case "Left": // IE/Edge specific value
         case "ArrowLeft":
+            console.log(event.key);
           // Do something for "left arrow" key press.
           break;
         case "Right": // IE/Edge specific value
         case "ArrowRight":
+            console.log(event.key);
           // Do something for "right arrow" key press.
           break;
-        case "Enter":
-          // Do something for "enter" or "return" key press.
-          break;
-        case "Esc": // IE/Edge specific value
-        case "Escape":
-          // Do something for "esc" key press.
-          break;
+        
         default:
           return; // Quit when this doesn't handle the key event.
       }
   
       // Cancel the default action to avoid it being handled twice
-      event.preventDefault();
-      console.log(CurrentFocus);
+        event.preventDefault();
+        currentFocus = document.getElementById(cardArray[i]);
+        currentFocus.focus();
+        console.log(currentFocus);
     },
     true
   );
