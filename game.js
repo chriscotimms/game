@@ -3,10 +3,9 @@
 
 const section = document.querySelector("section");
 const playerLivesCount = document.querySelector("span");
-let playerLives = 6;
+let playerLives = 7;
 playerLivesCount.textContent = playerLives;
-
-const cardArray = [];
+const cardArray = [];//create array for navigation reference
 
 
 const getData = () => [
@@ -35,8 +34,6 @@ const randomise = () => {
     return cardData;
 }
 
-//randomise();
-
 //card generator function
 const cardGenerator = () => {
     const cardData = randomise();
@@ -46,31 +43,31 @@ const cardGenerator = () => {
         const card = document.createElement("div");
         const face = document.createElement("img");
         const back = document.createElement("div");
+        //set attributes
         card.id = "tile" + index;
         cardArray.push(card.id);
         card.classList = 'card';
         face.classList = 'face';
         back.classList = 'back';
         back.insertAdjacentText("beforeend", index);
+        //aria label and tabindex for accessibility
         card.ariaLabel = "Tile " + index;
         card.tabIndex = "0";
         face.src = item.imgSrc;
         card.setAttribute('name', item.name);
         card.setAttribute('Tile', index);
-        
-
+        //populate DOM section
         section.appendChild(card);
         card.appendChild(face);
         card.appendChild(back);
 
-        //Adding event listener to cards for mouseclick
+        //Add event listener to cards for mouseclick
         card.addEventListener('click', (e) => {
             card.classList.toggle('toggleCard');
             checkCards(e);
         });
 
-
-        //additionally adding keyboard input enter on focus for cards
+        //additionally adding keyboard input enter on focused choice for cards
         window.addEventListener('keydown', (e) => {
             if (e.defaultPrevented) {
                 return; // Do nothing if the event was already processed
@@ -98,13 +95,6 @@ const cardGenerator = () => {
 };
 
 
-//let currentFocus = document.getElementById("tile 2");
-//console.log(currentFocus + "returned");
-
-
-
-
-
 //check cards 
 const checkCards = (e) => {
     const clickedCard = e.target;
@@ -115,6 +105,7 @@ const checkCards = (e) => {
     const flippedCards = document.querySelectorAll(".flipped");
     const toggleCard = document.querySelectorAll(".toggleCard");
     console.log(flippedCards);
+    
 
     if(flippedCards.length == 2) {
         if(flippedCards[0].getAttribute("name") === flippedCards[1].getAttribute("name")) {
@@ -125,7 +116,7 @@ const checkCards = (e) => {
                 card.ariaLabel = "Tile " + card.getAttribute("tile") + " matched";
             });
         } else {
-            console.log("wrong");
+            console.log("No Match");
             flippedCards.forEach(card => {
                 card.classList.remove('flipped');
                 setTimeout(() => {
@@ -135,7 +126,8 @@ const checkCards = (e) => {
                 
             });
             
-            playerLives--;
+            playerLives--; //subtract a choice or life
+            
             if (playerLives === 0) {
                 restart(":( try again :(");
             } 
@@ -148,6 +140,7 @@ const checkCards = (e) => {
     if (toggleCard.length === 16) {
         restart("you won!");
     }
+    
 };
 
 const restart = (text) => {
@@ -171,14 +164,13 @@ const restart = (text) => {
     }, 1501);
 };
 
+//function is called
 cardGenerator();
 
-
+//setting focus and array reference for updating focus for arrows
 let i = 0;
 let currentFocus = document.getElementById(cardArray[i]);
 currentFocus.focus();
-console.log(currentFocus, i);
-
 
 
 //adding keyboard navigation
@@ -217,13 +209,14 @@ window.addEventListener("keydown", (event) => {
         //cancel the default action to avoid it being handled twice
         event.preventDefault();
 
-        //counter issues with remainder from 0 to negative integers (abs does no work here as it essentially reverses the intended direction of the arrows)  
+        //counter issues with remainder from 0 to negative integers (abs does not work here as it essentially reverses the intended direction of the arrows)  
         if (i < 0) {
             i = i + 16;
         }
 
         //modulo to contain counted variable within 0-15
         i = i % 16;
+        //update current focus using array
         currentFocus = document.getElementById(cardArray[i]);
         currentFocus.focus();
 
