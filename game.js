@@ -192,44 +192,43 @@ window.addEventListener("keydown", (event) => {
 
         case "Down": // IE/Edge specific value
         case "ArrowDown":
-            console.log(event.key);
-            if (i < 16) {
-                i == i+4;
-            } else {
-                i -= 12;
-            }
-            console.log(i);
-            
-                       
+            i = i + 4;
           // Do something for "down arrow" key press.
           break;
         case "Up": // IE/Edge specific value
         case "ArrowUp":
-            console.log(event.key);
+            i = i - 4;
           // Do something for "up arrow" key press.
           break;
         case "Left": // IE/Edge specific value
         case "ArrowLeft":
-            console.log(event.key);
+            i = i - 1;
           // Do something for "left arrow" key press.
           break;
         case "Right": // IE/Edge specific value
         case "ArrowRight":
-            console.log(event.key);
+            i = i + 1;
           // Do something for "right arrow" key press.
           break;
         
         default:
           return; // Quit when this doesn't handle the key event.
       }
-  
-      // Cancel the default action to avoid it being handled twice
+        //cancel the default action to avoid it being handled twice
         event.preventDefault();
+
+        //counter issues with remainder from 0 to negative integers (abs does no work here as it essentially reverses the intended direction of the arrows)  
+        if (i < 0) {
+            i = i + 16;
+        }
+
+        //modulo to contain counted variable within 0-15
+        i = i % 16;
         currentFocus = document.getElementById(cardArray[i]);
         currentFocus.focus();
-        console.log(currentFocus);
+
     },
     true
   );
 
-  
+
