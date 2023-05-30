@@ -1,227 +1,59 @@
-// https://www.youtube.com/watch?v=-tlb4tv4mC4&ab_channel=developedbyed
+/* https://www.youtube.com/watch?v=Lcdc2v-9PjA&ab_channel=ChrisCourses */
 
+const canvas = document.querySelector('canvas');
+const c = canvas.getContext('2d');
 
-const section = document.querySelector("section");
-const playerLivesCount = document.querySelector("span");
-let playerLives = 7;
-playerLivesCount.textContent = playerLives;
-const cardArray = [];//create array for navigation reference
+canvas.width = 64 * 16;
+canvas.height = 64 * 9;
 
+class Player {
+    constructor() {
+        this.position = {
+            x:100,
+            y:100
+        };
+        this.width = 100,
+        this.height = 100,
+        this.sides = {
+            bottom: this.position.y + this.height
+        }
+    }
 
-const getData = () => [
-    {imgSrc: 'images/butros.jpeg', name:"boutros_boutros-ghali"},
-    {imgSrc: 'images/clippy.jpeg', name:"clippy"},
-    {imgSrc: 'images/earth.jpeg', name:"earth"},
-    {imgSrc: 'images/shrek.jpeg', name:"shrek"},
-    {imgSrc: 'images/horse.jpeg', name:"horse"},
-    {imgSrc: 'images/icecream.jpeg', name:"icecream"},
-    {imgSrc: 'images/kitty.jpeg', name:"kitty"},
-    {imgSrc: 'images/spade.jpeg', name:"spade"},
-    {imgSrc: 'images/butros.jpeg', name:"boutros_boutros-ghali"},
-    {imgSrc: 'images/clippy.jpeg', name:"clippy"},
-    {imgSrc: 'images/earth.jpeg', name:"earth"},
-    {imgSrc: 'images/shrek.jpeg', name:"shrek"},
-    {imgSrc: 'images/horse.jpeg', name:"horse"},
-    {imgSrc: 'images/icecream.jpeg', name:"icecream"},
-    {imgSrc: 'images/kitty.jpeg', name:"kitty"},
-    {imgSrc: 'images/spade.jpeg', name:"spade"},
-    ];
+    draw() {
+        c.fillStyle = 'red';
+        c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
 
-//randomiser
-const randomise = () => {
-    const cardData = getData();
-    cardData.sort(() => Math.random() - 0.5);
-    return cardData;
-}
-
-//card generator function
-const cardGenerator = () => {
-    const cardData = randomise();
-
-    cardData.forEach((item, index) => {
-        //generate html
-        const card = document.createElement("div");
-        const face = document.createElement("img");
-        const back = document.createElement("div");
-        //set attributes
-        card.id = "tile" + index;
-        cardArray.push(card.id);
-        card.classList = 'card';
-        face.classList = 'face';
-        back.classList = 'back';
-        back.insertAdjacentText("beforeend", index);
-        //aria label and tabindex for accessibility
-        card.ariaLabel = "Tile " + index;
-        card.tabIndex = "0";
-        face.src = item.imgSrc;
-        card.setAttribute('name', item.name);
-        card.setAttribute('Tile', index);
-        //populate DOM section
-        section.appendChild(card);
-        card.appendChild(face);
-        card.appendChild(back);
-
-        //Add event listener to cards for mouseclick
-        card.addEventListener('click', (e) => {
-            card.classList.toggle('toggleCard');
-            checkCards(e);
-        });
-
-        //additionally adding keyboard input enter on focused choice for cards
-        window.addEventListener('keydown', (e) => {
-            if (e.defaultPrevented) {
-                return; // Do nothing if the event was already processed
+    update() {
+        if (this.sides.bottom < canvas.height) {
+            this.position.y++; 
+            this.sides.bottom = this.position.y + this.height;
             }
-            switch (e.key) {
-            
-                case "Enter":
-                document.activeElement.classList.toggle('toggleCard');
-                checkCards(e);
-                //console.log(CurrentFocus);
-                break;
-
-            default:
-              return; // Quit when this doesn't handle the key event.
-          }
-          // Cancel the default action to avoid it being handled twice
-          e.preventDefault();
-        },
-        true
-      );
-
-
-    });
-
+    }
 };
 
 
-//check cards 
-const checkCards = (e) => {
-    const clickedCard = e.target;
-    clickedCard.classList.add("flipped");
-    const namer = clickedCard.getAttribute("name");
-    clickedCard.ariaLabel = "Tile " + clickedCard.getAttribute("tile") + " " + namer;
-    console.log(namer);
-    const flippedCards = document.querySelectorAll(".flipped");
-    const toggleCard = document.querySelectorAll(".toggleCard");
-    console.log(flippedCards);
-    
 
-    if(flippedCards.length == 2) {
-        if(flippedCards[0].getAttribute("name") === flippedCards[1].getAttribute("name")) {
-            console.log("match");
-            flippedCards.forEach((card) => {
-                card.classList.remove("flipped");
-                card.style.pointerEvents = "none";
-                card.ariaLabel = "Tile " + card.getAttribute("tile") + " matched";
-            });
-        } else {
-            console.log("No Match");
-            flippedCards.forEach(card => {
-                card.classList.remove('flipped');
-                setTimeout(() => {
-                    card.classList.remove('toggleCard');
-                    card.ariaLabel = "Tile " + card.getAttribute("tile");   
-                }, 2000);
-                
-            });
-            
-            playerLives--; //subtract a choice or life
-            
-            if (playerLives === 0) {
-                restart(":( try again :(");
-            } 
-            setTimeout(() => {
-                playerLivesCount.textContent = playerLives;
-                  
-            }, 1500);
-        }
-    }
-    if (toggleCard.length === 16) {
-        restart("you won!");
-    }
+c.fillStyle = 'white';
+c.fillRect(0,0,canvas.width, canvas.height);
+
+const player = new Player()
+
+
+//let = bottom = y + 100;
+function animate() {
+    window.requestAnimationFrame(animate);
+    c.fillStyle = 'white';
+    c.fillRect(0,0,canvas.width, canvas.height);
+
+    
+    player.draw();
+    player.update();
+    //if (bottom < canvas.height) {
+    //    y++; 
+    //    bottom = y + height;
+    //}
     
 };
 
-const restart = (text) => {
-    cardData = randomise();
-    let faces = document.querySelectorAll(".face");
-    let cards = document.querySelectorAll(".card");
-    section.style.pointerEvents = "none";
-    cardData.forEach((item, index) => {
-        cards[index].classList.remove('toggleCard');
-        setTimeout(() => {
-        cards[index].style.pointerEvents = "all";
-        faces[index].src = item.imgSrc;
-        cards[index].setAttribute("name", item.name);
-        section.style.pointerEvents = "all";
-        }, 1000);
-    });
-    setTimeout(function() { 
-        playerLives = 6; 
-        playerLivesCount.textContent = playerLives; 
-        window.alert(text);
-    }, 1501);
-};
-
-//function is called
-cardGenerator();
-
-//setting focus and array reference for updating focus for arrows
-let i = 0;
-let currentFocus = document.getElementById(cardArray[i]);
-currentFocus.focus();
-
-
-//adding keyboard navigation
-window.addEventListener("keydown", (event) => { 
-
-      if (event.defaultPrevented) {
-        return; // Do nothing if the event was already processed
-      }
-  
-      switch (event.key) {
-
-        case "Down": // IE/Edge specific value
-        case "ArrowDown":
-            i = i + 4;
-          // Do something for "down arrow" key press.
-          break;
-        case "Up": // IE/Edge specific value
-        case "ArrowUp":
-            i = i - 4;
-          // Do something for "up arrow" key press.
-          break;
-        case "Left": // IE/Edge specific value
-        case "ArrowLeft":
-            i = i - 1;
-          // Do something for "left arrow" key press.
-          break;
-        case "Right": // IE/Edge specific value
-        case "ArrowRight":
-            i = i + 1;
-          // Do something for "right arrow" key press.
-          break;
-        
-        default:
-          return; // Quit when this doesn't handle the key event.
-      }
-        //cancel the default action to avoid it being handled twice
-        event.preventDefault();
-
-        //counter issues with remainder from 0 to negative integers (abs does not work here as it essentially reverses the intended direction of the arrows)  
-        if (i < 0) {
-            i = i + 16;
-        }
-
-        //modulo to contain counted variable within 0-15
-        i = i % 16;
-        //update current focus using array
-        currentFocus = document.getElementById(cardArray[i]);
-        currentFocus.focus();
-
-    },
-    true
-  );
-
-
+animate();
