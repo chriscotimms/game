@@ -6,39 +6,23 @@ const c = canvas.getContext('2d');
 canvas.width = 64 * 16;
 canvas.height = 64 * 9;
 
-class Player {
-    constructor() {
-        this.position = {
-            x:100,
-            y:100
-        };
-        this.width = 100,
-        this.height = 100,
-        this.sides = {
-            bottom: this.position.y + this.height
-        }
-    }
-
-    draw() {
-        c.fillStyle = 'red';
-        c.fillRect(this.position.x, this.position.y, this.width, this.height);
-    }
-
-    update() {
-        if (this.sides.bottom < canvas.height) {
-            this.position.y++; 
-            this.sides.bottom = this.position.y + this.height;
-            }
-    }
-};
-
 
 
 c.fillStyle = 'white';
 c.fillRect(0,0,canvas.width, canvas.height);
 
-const player = new Player()
-
+const player = new Player();
+const keys = {
+    w: {
+        pressed: false,
+    },
+    a: {
+        pressed: false,
+    },
+    d: {
+        pressed: false,
+    },
+};
 
 //let = bottom = y + 100;
 function animate() {
@@ -46,14 +30,48 @@ function animate() {
     c.fillStyle = 'white';
     c.fillRect(0,0,canvas.width, canvas.height);
 
-    
+    player.velocity.x = 0;
+    if (keys.d.pressed) {
+        player.velocity.x = 3;
+    }  else if (keys.a.pressed) {
+        player.velocity.x = -3;
+    };
     player.draw();
     player.update();
-    //if (bottom < canvas.height) {
-    //    y++; 
-    //    bottom = y + height;
-    //}
-    
 };
 
 animate();
+
+window.addEventListener('keydown', (event) => {
+    console.log(event.key);
+    switch (event.key) {
+        case 'w':
+            if (player.velocity.y === 0) player.velocity.y = -20;
+            break;
+        case 'a':
+            //move to left
+            keys.a.pressed = true;
+            break;
+
+        case 'd':
+            //move to right
+            keys.d.pressed = true;
+            break;
+    }
+});
+
+window.addEventListener('keyup', (event) => {
+    console.log(event.key);
+    switch (event.key) {
+
+        case 'a':
+            //move to left
+            keys.a.pressed = false;
+            break;
+
+        case 'd':
+            //move to right
+            keys.d.pressed = false;
+            break;
+    }
+});
