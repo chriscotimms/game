@@ -17,8 +17,7 @@ const backgroundLevel1 = new Sprite({
         y:0,
     },
     imageSrc:"./img/backgroundLevel1.png",
-
-})
+});
 
 const player = new Player();
 const keys = {
@@ -41,6 +40,9 @@ function animate() {
     //c.fillRect(0,0,canvas.width, canvas.height);
 
     backgroundLevel1.draw();
+    collisionBlocks.forEach(collisionBlock => {
+        collisionBlock.draw();
+    })
 
     player.velocity.x = 0;
     if (keys.d.pressed) player.velocity.x = 4;
