@@ -16,5 +16,37 @@ Array.prototype.parse2D = function () {
     return rows;
 }
 
+<<<<<<< HEAD
 
 
+=======
+class CollisionBlock {
+    constructor({position}) {
+        this.position = position,
+        this.width = 64,
+        this.height = 64
+    }
+
+    draw() {
+        c.fillStyle = "red"
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+const collisionBlocks = [];
+
+const parsedCollisions = collisionsLevel1.parse2D();
+parsedCollisions.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 292) {
+            // push collision in array
+            collisionBlocks.push(new CollisionBlock({
+                position: {
+                    x: x*64,
+                    y: y*64,
+                },
+            }))
+        }
+    });
+});
+>>>>>>> 75b8e22e23f7d17101f118fad0dd4060187ac294
