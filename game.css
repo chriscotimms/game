@@ -9,7 +9,8 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color:#988412;
+    background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
     font-family: 'Baloo 2', cursive;
 
 }
@@ -22,13 +23,16 @@ section {
     perspective: 800px;
     padding: 2rem;
     margin: 2rem ;
-    background-color: #61530b;
-    box-shadow: #3f3607 0 0 15px 10px;
+    background: rgb(2,0,36);
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(102,0,255,1) 2%, rgba(9,9,121,1) 100%);
+    box-shadow: #3b006c 0 0 15px 3px;
 }
 
 h1 {
     font-size: 3rem;
-    background-color: antiquewhite;
+    background: rgb(255, 229, 240);
+    box-shadow: #3b006c 0 0 15px 3px;    
     margin: 0.25rem;
     padding: 0.5rem;
     border-radius: 0.25rem;
